@@ -2,21 +2,7 @@
     <el-row :gutter="20" style="box-sizing: border-box; margin-right: 0px;">
         <el-col :span="4" :offset="3">
             <ul class="menus is-always-shadow" @mouseleave="hideDetail">
-                <li @mouseenter="showDetail">家用电器</li>
-                <li @mouseenter="showDetail">手机 / 运营商 / 数码数码数码</li>
-                <li @mouseenter="showDetail">电脑 / 办公</li>
-                <li @mouseenter="showDetail">男鞋 / 运动 / 户外</li>
-                <li @mouseenter="showDetail">家居 / 家具 / 家装 / 厨具</li>
-                <li @mouseenter="showDetail">美妆 / 个人清洁 / 宠物</li>
-                <li @mouseenter="showDetail">女鞋 / 箱包 / 钟表</li>
-                <li @mouseenter="showDetail">房产 / 汽车 / 汽车用品</li>
-                <li @mouseenter="showDetail">艺术 / 礼品鲜花 / 农资绿植</li>
-                <li @mouseenter="showDetail">机票 / 酒店 / 旅游 / 生活</li>
-                <li @mouseenter="showDetail">医药保健 / 计生情趣</li>
-                <li @mouseenter="showDetail">图书 / 酒店 / 旅游 / 生活</li>
-                <li @mouseenter="showDetail">机票 / 文娱 / 教育 / 电子书</li>
-                <li @mouseenter="showDetail">理财 / 众筹 / 白条 / 保险</li>
-                <li @mouseenter="showDetail">安装 / 维修 / 清洗 / 二手</li>
+                <li @mouseenter="showDetail(index)" v-for="(category1,index) in categoryList1 "  :key="index">{{category1.categoryName}}</li>
             </ul>
         </el-col>
         <el-col :span="13" style="position: relative;">
@@ -35,43 +21,40 @@
                 </el-carousel-item>
             </el-carousel>
             <div class="detail" @mouseenter="showDetail" @mouseleave="hideDetail" v-show="isShowDetail">
-                <div class="detail-item">
-                    <h3 class="title">电视</h3>
+                <div class="detail-item" v-for="(category2,index) in categoryList2" :key="index">
+                    <h3 class="title">{{category2.categoryName}}</h3>
+
                     <div>
-                        <el-link :underline="false" class="item">全面屏电视</el-link> 
-                        <el-link :underline="false" class="item">教育电视</el-link>
-                        <el-link :underline="false" class="item">OLED电视</el-link>
-                        <el-link :underline="false" class="item">智慧屏</el-link>
-                        <el-link :underline="false" class="item">4K超清电视</el-link>
-                        <el-link :underline="false" class="item">55英寸</el-link>
-                    </div>
-                </div>  
-                <div class="detail-item">
-                    <h3 class="title">空调</h3>
-                    <div>
-                        <el-link :underline="false" class="item" @click="toSearch">新风空调</el-link> 
-                        <el-link :underline="false" class="item">以旧换新</el-link>
-                        <el-link :underline="false" class="item">空调柜机</el-link>
-                        <el-link :underline="false" class="item">空调套装</el-link>
-                        <el-link :underline="false" class="item">中央空调</el-link>
-                        <el-link :underline="false" class="item">移动空调空调</el-link>
+                        <el-link :underline="false" class="item" v-for="(category3,index) in category2.categoryList" :key="index">
+                          {{category3.categoryName}}
+                        </el-link>
+
                     </div>
                 </div>
+
             </div>
         </el-col>
     </el-row>
+
 </template>
 
 <script>
+import {getList} from "@/api/category";
+
 export default {
     data: () => ({
-        isShowDetail: false
+        isShowDetail: false,
+        categoryList1:[],
+        categoryList2:[],
+        categoryList3:[]
     }),
     components: {
     },
     methods: {
-        showDetail() {
+        showDetail(index) {
             this.isShowDetail = true
+          // alert(index)
+          this.categoryList2 = this.categoryList1[index].categoryList;
         },
         hideDetail() {
             this.isShowDetail = false
@@ -80,7 +63,25 @@ export default {
             this.$router.push({
                 path:'/search'
             })
-        }
+        },
+      getCategories:function (){
+          let _this = this;
+
+        getList().then(res =>{
+          window.console.log(res);
+            _this.categoryList1 = res.data;
+          // alert(_this.categoryList1[0].categoryList[0].categoryName);
+
+
+        })
+      }
+
+    },
+    mounted:function () {
+
+      this.getCategories();
+
+
     }
 }
 </script>
