@@ -2,59 +2,46 @@
     <el-row :gutter="20" style="box-sizing: border-box; margin-right: 0px;">
         <el-col :span="4" :offset="3">
             <ul class="menus is-always-shadow" @mouseleave="hideDetail">
-                <li @mouseenter="showDetail(index)" v-for="(category1,index) in categoryList1 "  :key="index">{{category1.categoryName}}</li>
+                <li @mouseenter="showDetail(index)" v-for="(category,index) in categories1" :key="index">{{category.categoryName}}</li>
             </ul>
         </el-col>
         <el-col :span="13" style="position: relative;">
             <el-carousel height="430px" :interval="5000" arrow="always">
-                <el-carousel-item>
-                    <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'"></el-image>
+                <el-carousel-item v-for="(image,index) in imageList" :key="index">
+                    <el-image :src="'http://localhost:8080/image/'+image.imgUrl"></el-image>
                 </el-carousel-item>
-                <el-carousel-item>
-                    <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'"></el-image>
-                </el-carousel-item>
-                <el-carousel-item>
-                    <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'"></el-image>
-                </el-carousel-item>
-                <el-carousel-item>
-                    <el-image :src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'"></el-image>
-                </el-carousel-item>
+                
             </el-carousel>
             <div class="detail" @mouseenter="showDetail" @mouseleave="hideDetail" v-show="isShowDetail">
-                <div class="detail-item" v-for="(category2,index) in categoryList2" :key="index">
+                <div class="detail-item" v-for="(category2,index2) in categories2" :key="index2">
                     <h3 class="title">{{category2.categoryName}}</h3>
-
                     <div>
-                        <el-link :underline="false" class="item" v-for="(category3,index) in category2.categoryList" :key="index">
-                          {{category3.categoryName}}
-                        </el-link>
-
+                        <el-link :underline="false" class="item" v-for="(category3,i) in category2.categoryList" :key="i">
+                            {{category3.categoryName}}    
+                        </el-link> 
                     </div>
-                </div>
-
+                </div>  
             </div>
         </el-col>
     </el-row>
-
 </template>
 
 <script>
-import {getList} from "@/api/category";
-
+import {getList} from '@/api/category'
+import {getImageList} from '@/api/indexImage'
 export default {
     data: () => ({
         isShowDetail: false,
-        categoryList1:[],
-        categoryList2:[],
-        categoryList3:[]
+        categories1:[], //一级分类
+        categories2:[],
+        imageList:[]
     }),
     components: {
     },
     methods: {
         showDetail(index) {
             this.isShowDetail = true
-          // alert(index)
-          this.categoryList2 = this.categoryList1[index].categoryList;
+            this.categories2 = this.categories1[index].categoryList;
         },
         hideDetail() {
             this.isShowDetail = false
@@ -64,24 +51,27 @@ export default {
                 path:'/search'
             })
         },
-      getCategories:function (){
-          let _this = this;
-
-        getList().then(res =>{
-          window.console.log(res);
-            _this.categoryList1 = res.data;
-          // alert(_this.categoryList1[0].categoryList[0].categoryName);
-
-
-        })
-      }
-
+        getCategories:function(){
+            let _this = this;
+            getList().then(res => {
+                window.console.log(res);
+                _this.categories1 = res.data;
+            })
+            //直接发axios请求
+        },
+        getIndexImage:function(){
+            let _this = this;
+            getImageList().then(res =>{
+                window.console.log(res);
+                _this.imageList = res.data;
+            })
+        }
     },
-    mounted:function () {
-
-      this.getCategories();
-
-
+    mounted:function(){
+        //页面加载完成调用getCategories查询所有的分类
+        this.getCategories();
+        //页面加载完成调用getCategories查询所有轮播图
+        this.getIndexImage();
     }
 }
 </script>
