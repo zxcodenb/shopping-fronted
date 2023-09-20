@@ -16,7 +16,7 @@
                 <div class="detail-item" v-for="(category2,index2) in categories2" :key="index2">
                     <h3 class="title">{{category2.categoryName}}</h3>
                     <div>
-                        <el-link :underline="false" class="item" v-for="(category3,i) in category2.categoryList" :key="i">
+                        <el-link @click="toSearch(category3.categoryId)" :underline="false" class="item" v-for="(category3,i) in category2.categoryList" :key="i">
                             {{category3.categoryName}}    
                         </el-link> 
                     </div>
@@ -46,15 +46,19 @@ export default {
         hideDetail() {
             this.isShowDetail = false
         },
-        toSearch(){
+        toSearch(categoryId){
             this.$router.push({
-                path:'/search'
+                path:'/search',
+                query:{
+                  categoryId:categoryId
+                }
             })
+          // alert(categoryId);
         },
         getCategories:function(){
             let _this = this;
             getList().then(res => {
-                window.console.log(res);
+                // window.console.log(res);
                 _this.categories1 = res.data;
             })
             //直接发axios请求
@@ -62,7 +66,7 @@ export default {
         getIndexImage:function(){
             let _this = this;
             getImageList().then(res =>{
-                window.console.log(res);
+                // window.console.log(res);
                 _this.imageList = res.data;
             })
         }

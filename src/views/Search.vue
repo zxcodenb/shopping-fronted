@@ -14,7 +14,7 @@
                             <span>累计销量：{{product.soldNum}}</span>
                             <div class="bottom clearfix">
                                 <time class="time">{{ product.createTime }}</time>
-                                <el-button type="text" size="small" @click="toDetail">操作按钮</el-button>
+                                <el-button type="text" size="small" @click="toDetail(product.productId)">操作按钮</el-button>
                             </div>
                         </div>
                     </el-card>
@@ -30,6 +30,7 @@
     import Header from '@/components/Index/Header'
     import SearchBar from '@/components/Index/SearchBar'
     import Footer from '@/components/Index/Footer'
+    import {getProductList} from "@/api/Product";
 
     export default {
        components: {
@@ -39,56 +40,33 @@
       },
       data(){
         return{
-            productList:[
-                {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-                 {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-                 {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-                 {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-                 {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-                 {
-                    productId:1,
-                    productName:'奥利奥小饼干666' ,
-                    soldNum:198,
-                    content:'好吃好吃!!!',
-                    createTime:'2022-02-02'
-                },
-            ]
+            categoryId:1,
+            productList:[]
         }
       },
       methods:{
-        toDetail:function(){
-            this.$router.push('/detail')
+        toDetail:function(productId){
+            this.$router.push({
+                path:'/detail',
+                query:{
+                    productId
+                }
+            })
+        },
+        //获取后端的  商品数据
+        selectProducts:function(){
+            let _this = this;
+          getProductList(this.categoryId).then(res =>{
+                 window.console.log(res);   
+                _this.productList = res.data.records;
+
+            })
         }
+
+      },
+      mounted:function(){
+           this.categoryId = this.$route.query.categoryId;
+           this.selectProducts();
       }
     }
 </script>
