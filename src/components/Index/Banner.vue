@@ -1,8 +1,8 @@
 <template>
     <el-row :gutter="20" style="box-sizing: border-box; margin-right: 0px;">
-        <el-col :span="4" :offset="3">
-            <ul class="menus is-always-shadow" @mouseleave="hideDetail">
-                <li @mouseenter="showDetail(index)" v-for="(category,index) in categories1" :key="index">{{category.categoryName}}</li>
+        <el-col :span="4" :offset="3" >
+            <ul class="menus is-always-shadow" @mouseleave="hideDetail" >
+                <li  @mouseenter="showDetail(index)" v-for="(category,index) in categories1" :key="index" >{{category.categoryName}} </li>
             </ul>
         </el-col>
         <el-col :span="13" style="position: relative;">
