@@ -1,25 +1,17 @@
 <template>
   <el-row type="flex" style="margin-top: 15px;">
     <el-col class="goods-show" :offset="3" :span="18">
-      <el-card :body-style="style" v-for="(recomend,index) in recommendList" :key="index">
-        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-             class="image">
+      <el-card :body-style="style" v-for="(recommend,index) in recommendList" :key="index">
+        <img :src="'http://localhost:8080/image/'+recommend.productImg.url" class="image">
         <div style="padding: 8px 14px;">
-          <span>好吃的汉堡</span>
+          <span>{{recommend.productName}}</span>
           <div class="bottom clearfix">
             <time class="time">{{ currentDate }}</time>
             <el-button type="text" size="small">操作按钮</el-button>
           </div>
         </div>
       </el-card>
-
-<!--      <span class="demonstration">页数较少时的效果</span>-->
-<!--      <el-pagination class="center-align"-->
-<!--          layout="prev, pager, next"-->
-<!--          :total="50">-->
-<!--      </el-pagination>-->
     </el-col>
-
   </el-row>
 
 </template>
@@ -37,12 +29,16 @@ export default {
     getRecommend:function (){
       let _this = this;
       getRecommendList().then(res =>{
-          _this.recommendList = res.data();
+          // window.console.log(res.data);
+          // alert(res.data[0].productImg.url);
+          _this.recommendList =res.data;
       })
     }
   },
   mounted:function (){
+
     this.getRecommend();
+
   }
 }
 </script>
