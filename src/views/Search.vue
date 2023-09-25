@@ -57,7 +57,7 @@
         selectProducts:function(){
             let _this = this;
           getProductList(this.categoryId).then(res =>{
-                 window.console.log(res);   
+                 window.console.log(res);
                 _this.productList = res.data.records;
 
             })

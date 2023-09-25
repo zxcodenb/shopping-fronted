@@ -164,7 +164,8 @@
       return {
         guige: 5,
         kouwei:'微辣',
-        num:1
+        num:1,
+        productId: 0
       }
     },
     methods: {
@@ -181,6 +182,10 @@
         }
     },
     computed: {
+    },
+    mounted:function () {
+      this.categoryId = this.$route.query.productId;
+      //根据商品id查询商品详细信息
     }
   }
 </script>

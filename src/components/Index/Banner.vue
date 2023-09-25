@@ -2,7 +2,7 @@
     <el-row :gutter="20" style="box-sizing: border-box; margin-right: 0px;">
         <el-col :span="4" :offset="3" >
             <ul class="menus is-always-shadow" @mouseleave="hideDetail" >
-                <li  @mouseenter="showDetail(index)"   @click="toSearch(category.categoryId)"  v-for="(category,index) in categories1" :key="index" >{{category.categoryName}} </li>
+                <li  @mouseenter="showDetail(index)"   v-for="(category,index) in categories1" :key="index" >{{category.categoryName}} </li>
             </ul>
         </el-col>
         <el-col :span="13" style="position: relative;">
@@ -13,7 +13,7 @@
                 
             </el-carousel>
             <div class="detail" @mouseenter="showDetail" @mouseleave="hideDetail" v-show="isShowDetail">
-                <div class="detail-item"   @click="toSearch(category2.categoryId)"  v-for="(category2,index2) in categories2" :key="index2">
+                <div class="detail-item"   v-for="(category2,index2) in categories2" :key="index2">
                     <h3 class="title">{{category2.categoryName}}</h3>
                     <div>
                         <el-link @click="toSearch(category3.categoryId)" :underline="false" class="item" v-for="(category3,i) in category2.categoryList" :key="i">

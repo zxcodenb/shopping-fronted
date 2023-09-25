@@ -2,7 +2,7 @@
   <el-row type="flex" style="margin-top: 15px;">
     <el-col class="goods-show" :offset="3" :span="18">
       <el-card :body-style="style" v-for="(recommend,index) in recommendList" :key="index">
-        <img :src="'http://localhost:8080/image/'+recommend.productImg.url" class="image">
+        <img :src="'http://localhost:8080/image/'+recommend.url" class="image">
         <div style="padding: 8px 14px;">
           <span>{{recommend.productName}}</span>
           <div class="bottom clearfix">
@@ -27,7 +27,7 @@ export default {
   }),
   methods: {
     getRecommend:function (){
-      let _this = this;
+      let _this = this; 
       getRecommendList().then(res =>{
           // window.console.log(res.data);
           // alert(res.data[0].productImg.url);
