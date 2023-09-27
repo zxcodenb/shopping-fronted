@@ -30,7 +30,7 @@
                             </el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="danger" style="width: 100%;">登录</el-button>
+                            <el-button type="danger"  @click.prevent="loginUser" style="width: 100%;">登录</el-button>
                         </el-form-item>
                         <el-divider></el-divider>
                         <el-form-item style="margin-bottom: 0;">
@@ -56,6 +56,7 @@
 <script>
 import Footer from '@/components/Index/Footer'
 import CommonHeader from '@/components/CommonHeader'
+import {login} from "@/api/login";
 
 export default {
     components: {
@@ -67,7 +68,26 @@ export default {
             username: '',
             password: ''
         }
-    })
+    }),
+  methods: {
+      loginUser: function() {
+         login(loginForm).then(res =>{
+           if (res.code === 1){ //表示登录成功
+             //1.在客户端保存token  cookie localStorage
+             localStorage.setItem("token", res.data);
+             //2.跳转到刚刚浏览的页面
+             this.$router.push({path: '/'});
+           }else {//表示登录失败
+             this.$message.error(res.msg);
+           }
+        })
+          // 发送请求
+          // 获取返回数据
+          // 判断是否成功
+          // 成功跳转
+          // 失败提示
+      }
+  }
 }
 </script>
 

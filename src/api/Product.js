@@ -10,3 +10,14 @@ export function getProductList(categoryId){
     })
 
 }
+
+
+export function getDetail(productId) {
+
+    return request({
+        url: `/products/${productId}`,
+        method: 'get'
+
+
+    })
+}

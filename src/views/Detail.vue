@@ -153,6 +153,7 @@
   import Header from '@/components/Index/Header'
   import SearchBar from '@/components/Index/SearchBar'
   import Footer from '@/components/Index/Footer'
+  import {getDetail} from "@/api/Product";
 
   export default {
       components: {
@@ -165,7 +166,12 @@
         guige: 5,
         kouwei:'微辣',
         num:1,
-        productId: 0
+        productId: 0,
+        product:{},
+        productSkuList:[],
+        productParams:[],
+        productCommentsList:[],
+        productImgLIst:[]
       }
     },
     methods: {
@@ -179,7 +185,18 @@
           this.$router.push({
             path:'/my-cart'
           })
-        }
+        },
+      getProductDetail:function (productId){
+          getDetail(productId).then(res =>{
+            let _this = this;
+            _this.product = res.data.product;
+            _this.productSkuList = res.data.productSkuList;
+            _this.productParams = res.data.productParams;
+            _this.productCommentsList = res.data.productCommentsList;
+            _this.productImgLIst = res.data.productImgLIst;
+
+          })
+      }
     },
     computed: {
     },
